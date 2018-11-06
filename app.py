@@ -31,7 +31,7 @@ if __name__ == '__main__':
         low = 0
         up = len(id_sorted_list)
         while low != up:
-            cur_index = (low + up) // 2  # Целочисленный тип в Python имеет неограниченную длину
+            cur_index = (low + up) // 2
             if id == id_sorted_list[cur_index]:
                 return cur_index
             elif id < id_sorted_list[cur_index]:
