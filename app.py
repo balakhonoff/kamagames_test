@@ -5,7 +5,7 @@ import random
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--token', '-T', type=str, help='Telegram Bot token', required=True)
-    parser.add_argument('--debug', action='store_true', help='Fulfilled list of names')
+    parser.add_argument('--debug', action='store_true', help='Fulfilled list of names for debug')
     args = parser.parse_args()
 
     # Хранение состояний чат-бота для разных чатов
@@ -80,6 +80,7 @@ if __name__ == '__main__':
     def get_answers(message):
         if message.chat.id not in states.keys():
             states[message.chat.id] = 0
+        # Неприемлемая команда - выдать список доступных команд
         if states[message.chat.id] == 0:
             bot.send_message(message.chat.id,
                              'Доступные команды:\n'
@@ -89,6 +90,7 @@ if __name__ == '__main__':
         # Прием ответа после запроса на ввод
         elif states[message.chat.id] == 1:
             parsed = message.text.strip().split(',')
+            # Проверка входных данных
             if len(parsed) != 5:
                 bot.send_message(message.chat.id, 'Проверьте количество полей и введите еще раз: '
                                                   'имя, возраст, пол, город, страну')
@@ -105,8 +107,7 @@ if __name__ == '__main__':
                                          'Возраст не может быть отрицательным, введите еще раз')
                         return
                     parsed[1] = str(parsed[1])
-
-                except:
+                except Exception:
                     bot.send_message(message.chat.id, 'Проверьте, что поле возраст - целое положительное число, введите еще раз')
                     return
 
@@ -115,13 +116,13 @@ if __name__ == '__main__':
                              'Проверьте, что поле пол соотвествует одному из вариантов: 1) мужской, 2) женский')
                     return
 
+                # Добавление случайно сгенерированного id, чтобы демонстрировать сортировку
                 while True:
                     index = random.randint(1, 1000000)
                     if index not in info.keys():
                         info[index] = parsed
                         break
                 states[message.chat.id] = 0
-
                 bot.send_message(message.chat.id, 'Запись успешно добавлена')
         # Прием ответа после запроса на удаление
         elif states[message.chat.id] == 2:
