@@ -1,6 +1,7 @@
 import argparse
 import telebot
 import random
+from requests.exceptions import ConnectionError
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -141,5 +142,7 @@ if __name__ == '__main__':
                     bot.send_message(message.chat.id, 'Запись успешно удалена')
                 else:
                     bot.send_message(message.chat.id, 'Запись отсутствует')
-
-    bot.polling(none_stop=True)
+    try:
+        bot.polling(none_stop=True)
+    except ConnectionError:
+        print('Connection error. Check internet connection and telegram availability. Then start again')
