@@ -39,3 +39,5 @@ $ docker run kamagames_test_chatbot -T <token> [--debug]
 */list - просмотреть список людей*
 
 */del - удалить запись о человеке из списка*
+
+# Собранный образ доступен на [Docker Hub](https://hub.docker.com/r/kirill702b/chatbot/) 
